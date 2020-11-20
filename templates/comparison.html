@@ -1,0 +1,98 @@
+<head>
+  <title>BRISK_D Simulation</title>
+  <style>
+    .form-group{
+      width:400px;
+      border: solid 1px #000;
+      padding:35px;
+    }
+    .form-input{
+      display:block;
+      margin:15px;
+      width:100%;
+    }
+    h1{
+      text-align:center;
+    }
+    label{
+      color:green;
+    }
+  </style>
+</head>
+<body>
+  <form id="match" class="form-group" action="/matching#match" method="POST" enctype="multipart/form-data">
+    <h1>Feature Matching</h1>
+    <label>Select Algorithm:</label>
+    <select class="form-input" name="algo">
+      <option value="ALL">ALL</option>
+      <option value="SURF">SURF</option>
+      <option value="BRISK">BRISK</option>
+      <option value="BRISKD">BRISKD</option>
+      <option value="PROPOSED">PROPOSED</option>
+    </select>
+    <label>Upload Image 1:</label>
+    <input class="form-input" type="file" name="image1" required>
+    <label>Upload Image 2:</label>
+    <input class="form-input" type="file" name="image2" required>
+    <input class="form-input" type="submit" value="Compute">
+
+    {% if matches %}
+    <label>Results: </label>
+    <table border=1 style="width:380px">
+      <tr>
+        <th>Algorithm</th>
+        <th>Matches</th>
+        <th>Time</th>
+      </tr>
+      <tr>
+        <td>{{algo}}</td>
+        <td>{{matches}} kp</td>
+        <td>{{time}} ms</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align:center">
+        <img src="{{result}}" style="width:380px">
+        <a  href="{{result}}" target="blank">Full View</a>
+        </td>
+      </tr>
+    </table>
+    {% endif %}
+  </form>
+
+  <form id="detect" class="form-group" action="/detecting#detect" method="POST" enctype="multipart/form-data">
+    <h1>Feature Detector</h1>
+    <label>Select Algorithm:</label>
+    <select class="form-input" name="algo">
+      <option value="ALL">ALL</option>
+      <option value="SURF">SURF</option>
+      <option value="BRISK">BRISK</option>
+      <option value="BRISKD">BRISKD</option>
+      <option value="PROPOSED">PROPOSED</option>
+    </select>
+    <label>Upload Image 1:</label>
+    <input class="form-input" type="file" name="image1" required>
+    <input class="form-input" type="submit" value="Compute">
+    {% if quantity %}
+    <label>Results: </label>
+    <table border=1 style="width:380px">
+      <tr>
+        <th>Algorithm</th>
+        <th>Quantity</th>
+        <th>Time</th>
+      </tr>
+      <tr>
+        <td>{{algo}}</td>
+        <td>{{quantity}} kp</td>
+        <td>{{time}} ms</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align:center">
+        <img src="{{result}}" style="width:380px">
+        <a  href="{{result}}" target="blank">Full View</a>
+        </td>
+      </tr>
+    </table>
+    {% endif %}
+  </form>
+
+</body>

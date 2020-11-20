@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>BriskD2 Simulation</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+      <link media="all" type="text/css" rel="stylesheet" href="static/css/frontend.css">
+      <link href="static/css/all.css" rel="stylesheet" type="text/css">
+      <style>
+        body{
+          background:#222;
+        }
+      </style>
+      <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+   </head>
+   <body id="page-body">
+      <div class="container mt-2">
+         <div class="row">
+            <div class="col">
+               <div class="card">
+                  <div class="card-header" style="background: url(&quot;&quot;) center center / cover no-repeat;">
+                     <div class="text-center text-black mb-2 mt-2">
+                        <div class="account-setting-header card-metadata"><h2>BRISK_D2 Steps Simulation</h2></div>
+                        <p>A Modified FAST-BRISK_D Feature Detector with Depth Information and Deblurring Technique (BRISK_D2) <br> <span class="badge">Proposed by Roxanne Pagaduan</span></p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!--STEP 1-->
+         <div class="row mt-4">
+            <div class="col">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="drag-drop_container rounded-xl mb-2 p-5 supports-drag-drop">
+                        <div class="my-4">
+                           <div class="text-white"><h4>Steps 1 - Select Reference Image</h4></div>
+                           <div class="drag-drop_trigger">
+                              <form id="upload-file-1" method="POST" enctype="multipart/form-data">
+                                <input type="file" id="reference_img" name="reference_img" accept="image/jpeg,image/png,image/svg+xml" class="" hidden>
+                              </form>
+
+                              <div class="text-warning display-4 text-center mb-3">
+                                <i class="drag-drop_icon fas fa-images"></i>
+                                <img src="#" alt="preview" class="drag-drop_preview1 d-none img-fluid"></div>
+                              <p class="drag-drop_label1 text-center text-gray"></p>
+
+                              <label for="reference_img" class="mb-0 text-gray font-weight-bolder text-center d-block">
+                                 <p class="h5 mb-0"><span class="drag-drop_text">UPLOAD YOUR IMAGE HERE OR </span> <span class="text-warning cursor-pointer"><strong><u>BROWSE</u></strong></span></p>
+                              </label>
+                              <p class="mb-0 text-center text-gray"><small>SUPPORTS JPG, PNG, SVG</small></p>
+
+                           </div>
+                           <div class="drag-drop_uploading">Uploading…</div>
+                           <div class="drag-drop_success">Done!</div>
+                           <div class="drag-drop_error">Error! <span></span>.</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!--STEP 2-->
+         <div class="row">
+            <div class="col">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="drag-drop_container rounded-xl mb-2 p-5 supports-drag-drop">
+                        <div class="my-4">
+                           <div class="text-white"><h4>Steps 2 - Detect and Extract Keypoints using BRISKD</h4></div>
+                           <div class="form-group m-2">
+                             <div class="card" style="background: rgb(246, 247, 251);">
+                               <div class="card-body p-2">
+                                 <span id="extract1" class="btn btn-warning btn-shadow text-white d-block py-3"><strong><span class="mr-2">Detect and Extract</span> <i class="fa fa-cogs"></i></strong></span>
+                                 <div id="table1"><div>
+                               </div>
+                             </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <script type="text/javascript">
+            $( "#extract1" ).click(function() {
+                var form_data = new FormData($('#upload-file-1')[0]);
+                $.ajax({
+                    type: 'POST',
+                    url:"/extract1",
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
+                        $('#table1').html(data);
+                        console.log(data);
+                    }
+                });
+            });
+        </script>
+
+
+
+         <!--STEP 3-->
+         <form id="upload-file-2" method="POST" enctype="multipart/form-data">
+         <div class="row mt-2">
+            <div class="col">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="drag-drop_container rounded-xl mb-2 p-5 supports-drag-drop">
+                        <div class="my-4">
+                           <div class="text-white"><h4>Steps 3 - Select Input Image</h4></div>
+                           <div class="drag-drop_trigger">
+
+                              <input type="file" name="sample_img" id="sample_img" accept="image/jpeg,image/png,image/svg+xml" class="" hidden>
+
+                              <div class="text-warning display-4 text-center mb-3">
+                                <i class="drag-drop_icon fas fa-images"></i>
+                                <img src="#" alt="preview" class="drag-drop_preview2 img-fluid d-none">
+                              </div>
+                              <p class="drag-drop_label2 text-center text-gray"></p>
+                              <label for="sample_img" class="mb-0 text-gray font-weight-bolder text-center d-block">
+                                 <p class="h5 mb-0"><span class="drag-drop_text">UPLOAD YOUR IMAGE HERE OR </span> <span class="text-warning cursor-pointer"><strong><u>BROWSE</u></strong></span></p>
+                              </label>
+                              <p class="mb-0 text-center text-gray"><small>SUPPORTS JPG, PNG, SVG</small></p>
+                           </div>
+                           <div class="drag-drop_uploading">Uploading…</div>
+                           <div class="drag-drop_success">Done!</div>
+                           <div class="drag-drop_error">Error! <span></span>.</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!--STEP 4-->
+         <div class="row">
+            <div class="col">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="drag-drop_container rounded-xl mb-2 p-5 supports-drag-drop">
+                        <div class="my-4">
+                           <div class="text-white"><h4>Steps 4 - Set Threshold</h4></div>
+                           <div class="form-group m-2">
+                             <div class="card" style="background: rgb(246, 247, 251);">
+                               <div class="card-body p-2">
+                                 <input style="font-size:24px" type="text" name="threshold" value="50" class="form-control account-setting-input text-center">
+                               </div>
+                             </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+
+         <!--STEP 5-->
+         <div class="row">
+            <div class="col">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="drag-drop_container rounded-xl mb-2 p-5 supports-drag-drop">
+                        <div class="my-4">
+                           <div class="text-white"><h4>Steps 5 - Detecting if Blurry using Fast Fourier Transform (FFT)</h4></div>
+                           <div class="form-group m-2">
+                             <div class="card" style="background: rgb(246, 247, 251);">
+                               <div class="card-body p-2">
+                                 <span id="extract2" class="btn btn-warning btn-shadow text-white d-block py-3"><strong><span class="mr-2">Check</span> <i class="fa fa-search"></i></strong></span>
+                                 <div id="table2"></div>
+                               </div>
+                             </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         </form>
+         <script type="text/javascript">
+            $( "#extract2" ).click(function() {
+                var form_data = new FormData($('#upload-file-2')[0]);
+                $.ajax({
+                    type: 'POST',
+                    url:"/extract2",
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
+                        $('#table2').html(data);
+                        console.log(data);
+                    }
+                });
+            });
+        </script>
+
+
+        <!--STEP 6-->
+        <div class="row">
+           <div class="col">
+              <div class="row">
+                 <div class="col-lg-12">
+                    <div class="drag-drop_container rounded-xl mb-2 p-5 supports-drag-drop">
+                       <div class="my-4">
+                          <div class="text-white"><h4>Steps 6 - Deblur image using Wiener Filter</h4></div>
+                          <div class="form-group m-2">
+                            <div class="card" style="background: rgb(246, 247, 251);">
+                              <div class="card-body p-2">
+                                <span id="deblur" class="btn btn-warning btn-shadow text-white d-block py-3"><strong><span class="mr-2">Deblur Image</span> <i class="fa fa-cogs"></i></strong></span>
+                                <div id="loader" class="p-1"></div>
+                                <div id="table3"></div>
+                              </div>
+                            </div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <script type="text/javascript">
+           $( "#deblur" ).click(function() {
+               $('#table3').html("");
+               var form_data = new FormData($('#upload-file-2')[0]);
+               $('#loader').html(`<img src="static/img/loader.gif" style="width:30px;heigth:30px;display: block; margin-left: auto; margin-right: auto;">`);
+               $.ajax({
+                   type: 'POST',
+                   url:"/deblurme",
+                   data: form_data,
+                   contentType: false,
+                   cache: false,
+                   processData: false,
+                   success: function(data) {
+                       $('#table3').html(data);
+                       console.log(data);
+                   },
+                   complete: function(){
+                       $('#loader').html('');
+                   }
+               });
+           });
+       </script>
+
+
+         <!--STEP 7-->
+         <div class="row">
+            <div class="col">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="drag-drop_container rounded-xl mb-2 p-5 supports-drag-drop">
+                        <div class="my-4">
+                           <div class="text-white"><h4>Steps 7 - Detect and Compare</h4></div>
+                           <div class="form-group m-2">
+                             <div class="card" style="background: rgb(246, 247, 251);">
+                               <div class="card-body p-2">
+                                 <span id="compare" class="btn btn-warning btn-shadow text-white d-block py-3"><strong><span class="mr-2">Compare</span> <i class="fa fa-photo-video"></i></strong></span>
+                                 <div id="loader2" class="p-1"></div>
+                                 <div id="table4"></div>
+
+                               </div>
+                             </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <script type="text/javascript">
+            $( "#compare" ).click(function() {
+                $('#table4').html("");
+                $('#loader2').html(`<img src="static/img/loader.gif" style="width:30px;heigth:30px;display: block; margin-left: auto; margin-right: auto;">`);
+                $.ajax({
+                    type: 'POST',
+                    url:"/compare",
+                    data: {test:"Keypoint Matching"},
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
+                        $('#table4').html(data);
+                        console.log(data);
+                    },
+                    complete: function(){
+                        $('#loader2').html('');
+                    }
+                });
+            });
+        </script>
+
+
+         <!--Results-->
+         <div class="row mb-2">
+           <div class="col">
+             <div class="bg-white rounded-xl">
+               <div class="px-4">
+                 <div class="d-flex align-items-center p-5">
+                   <p class="h2 mb-0"><strong>Results Table</strong></p>
+                 </div>
+                <p class="text-center">The correct matching number after image deblurring.</p>
+               </div>
+               <div class="px-5">
+                 <div class="">
+                   <table class="table" id="tab">
+                     <thead class="thead" style="background-color: rgb(243, 243, 243);">
+                       <tr>
+                         <th >IMAGE #</th>
+                         <th >BRISK_D TIME</th>
+                         <th >BRISK_D MATCHES</th>
+                         <th >BRISK_D2 TIME</th>
+                         <th >BRISK_D2 MATCHES</th>
+                         <th >IMPROVEMENT %</th>
+                       </tr>
+                     </thead>
+                     <tbody id="row_results">
+                     </tbody>
+                   </table>
+                   <button  onclick="myApp.printTable()" >Print Results</button>
+
+                   <script type="text/javascript">
+                     var myApp = new function () {
+                         this.printTable = function () {
+                             var tab = document.getElementById('tab');
+                             var win = window.open('', '', 'height=700,width=700');
+                             win.document.write(tab.outerHTML);
+                             win.document.close();
+                             win.print();
+                         }
+                     }
+                   </script>
+                 </div>
+               </div>
+               <div class="osa-pagination p-3">
+                 <div class="px-4"></div>
+               </div>
+             </div>
+           </div>
+         </div>
+      </div>
+   </body>
+</html>
+<!-- Scripts -->
+<script src="static/js/manifest.js.download"></script>
+<script src="static/js/vendor.js.download"></script>
+<script src="static/js/frontend.js.download"></script>
+<script>
+    window.onbeforeunload = function ()
+    {
+        return "";
+    };
+
+   const dragAndDropFiles = function () {
+   const initDragAndDropFiles = function () {
+   const isAdvancedUpload = function() {
+   const div = document.createElement('div');
+       return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
+   }();
+
+   const fileUploadContainer = $('.drag-drop_container');
+   const input1 = $('#reference_img');
+   const input2 = $('#sample_img');
+   let label1 = $('.drag-drop_label1');
+   let label2 = $('.drag-drop_label2');
+
+   const showFile1 = function(files) {
+   label1.text(files[0].name);
+   };
+
+   const showFile2 = function(files) {
+   label2.text(files[0].name);
+   };
+
+
+   const showUploadedFile1 = function(file) {
+   const reader = new FileReader();
+   const preview = $('.drag-drop_preview1');
+   const icon = $('.drag-drop_icon');
+
+   reader.addEventListener('load', function() {
+       preview.attr('src', reader.result);
+       preview.removeClass('d-none');
+       icon.addClass('d-none');
+   }, false);
+
+   if(file) {
+       reader.readAsDataURL(file)
+   }
+   }
+
+   const showUploadedFile2 = function(file) {
+   const reader = new FileReader();
+   const preview = $('.drag-drop_preview2');
+   const icon = $('.drag-drop_icon');
+
+   reader.addEventListener('load', function() {
+       preview.attr('src', reader.result);
+       preview.removeClass('d-none');
+       icon.addClass('d-none');
+   }, false);
+
+   if(file) {
+       reader.readAsDataURL(file)
+   }
+   }
+
+   if (isAdvancedUpload) {
+   fileUploadContainer.addClass('supports-drag-drop');
+
+   fileUploadContainer.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
+       e.preventDefault();
+       e.stopPropagation();
+   })
+   .on('dragover dragenter', function() {
+       fileUploadContainer.addClass('is-dragover');
+   })
+   .on('dragleave dragend drop', function() {
+       fileUploadContainer.removeClass('is-dragover');
+   })
+   .on('drop', function(e) {
+       droppedFiles = e.originalEvent.dataTransfer.files;
+       showFile(droppedFiles);
+       showUploadedFile(droppedFiles[0]);
+
+   });
+   }
+
+   input1.on('change', function(e) {
+   showFile1(e.target.files);
+   showUploadedFile1(e.target.files[0]);
+   });
+
+   input2.on('change', function(e) {
+   showFile2(e.target.files);
+   showUploadedFile2(e.target.files[0]);
+   });
+
+
+   }
+
+   return {
+   init: function () {
+   initDragAndDropFiles();
+   }
+   }
+   }();
+</script>
+<script src="static/js/niceselect.js.download"></script>
+<script>
+   $(document).ready(function () {
+       dragAndDropFiles.init();
+
+   });
+</script>
