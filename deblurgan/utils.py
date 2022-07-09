@@ -25,7 +25,7 @@ def load_image(path):
 
 
 def preprocess_image(cv_img):
-    #cv_img = cv_img.resize(RESHAPE)
+    cv_img = cv_img.resize(RESHAPE)
     img = np.array(cv_img)
     img = (img - 127.5) / 127.5
     return img
